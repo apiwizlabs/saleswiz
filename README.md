@@ -5,22 +5,19 @@
     <b>Saleswiz: The CRM Solution for Streamlined Sales and Client Management, Customized to Your Needs.</b>
 </p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Made with Node.js](https://img.shields.io/badge/Node.js->=14-blue?logo=node.js&logoColor=green)](https://nodejs.org "Go to Node.js homepage")
 [![Made with React](https://img.shields.io/badge/React-18-blue?logo=react&logoColor=#61DAFB)](https://reactjs.org "Go to React homepage")
 ![GitHub contributors](https://img.shields.io/github/contributors/apiwizlabs/saleswiz)
 [![GitHub issues](https://img.shields.io/github/issues/apiwizlabs/saleswiz)](https://github.com/apiwizlabs/saleswiz/issues)
 [![GitHub stars](https://img.shields.io/github/stars/apiwizlabs/saleswiz)](https://github.com/apiwizlabs/saleswiz/stargazers)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/apiwizlabs/saleswiz)
-
-[![Twitter Follow](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/getapiwiz)
-[![Linkedin Follow](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/company/apiwizio/)
+[![Twitter Follow](https://img.shields.io/twitter/follow/getapiwiz)](https://twitter.com/getapiwiz)
 
 <!-- Add github shields badges  -->
 
 
 [**APIwiz is proud to make Saleswiz public for Contributions**](https://www.apiwiz.io/)  
-Saleswiz empowers Sales Executives in [APIwiz](https://www.apiwiz.io/), by offering streamlined Client Management, efficient deal and contract management.
+Saleswiz is the gateway to effortless deal management and well-organized client relationships, empowering Sales Executives within [APIwiz](https://www.apiwiz.io/)
 
 🎉 Now its Open to empower 💪🏻 Sales Executives in your Organisation too
 
@@ -52,7 +49,7 @@ To getting started in local development environment, just fork the project git r
 
 Navigate to `/public/config.js` and update the following variables accordingly
 1. `PUBLIC_KEY` : This is a randomly generated rsa key used for encrypting passwords, you can get one yours from https://cryptotools.net/rsagen. Paste the Public key in this config and Private Key in the Backend config
-2. `GOOGLE_OAUTH_CLIENT_ID`: This is a google oauth client id, you can get one yours from https://console.cloud.google.com/apis/credentials
+2. `GOOGLE_OAUTH_CLIENT_ID`: This is a google oauth client id, you can get yours after [google oauth setup](https://support.google.com/cloud/answer/6158849?hl=en)
 3. `API_BASE_URL`: The Base Url where your local server should be running
 4. `BASE_URL`: The Base Url for your local UI server
 
@@ -81,7 +78,7 @@ Kindly read our [Contributing Guide](./CONTRIBUTING.md) to familiarize yourself 
 
 ## Security
 
-For security issues, kindly email us to security@apiwiz.com instead of posting a public issue on Github
+For security issues, kindly email us at security@apiwiz.com instead of posting a public issue on Github
 
 ## Follow Us
 Join our growing community! Checkout out our official [Blog](https://www.apiwiz.io/resources/blogs). Follow us on [Twitter](https://twitter.com/getapiwiz), [Linkedin](https://www.linkedin.com/company/apiwizio/)
@@ -93,3 +90,12 @@ Join our growing community! Checkout out our official [Blog](https://www.apiwiz.
 <a>
 
 <!-- The above picture will be visible once made public -->
+
+
+
+
+
+
+
+
+
