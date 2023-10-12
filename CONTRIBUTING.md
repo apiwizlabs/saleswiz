@@ -64,4 +64,4 @@ Other packages can be found in the [`package.json`](./Server/package.json)
 By contributing you agree that your contributions will be licensed under its `MIT License`.
 
 ## Questions
-Reach out to our Discussion [forum](https://github.com/apiwizlabs/saleswiz-v2/discussions)
+Reach out to our Discussion [forum](https://github.com/apiwizlabs/saleswiz/discussions)
