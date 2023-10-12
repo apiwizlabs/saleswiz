@@ -22,13 +22,6 @@ Saleswiz is the gateway to effortless deal management and well-organized client 
 
 ## 🚀 Getting Started
 This is the backend code for [Saleswiz](../), <- Click here to go to UI setup  
-To getting started in local development environment, just fork the project git repository and follow the below steps:
-
-```bash
-    git clone https://github.com/<your_github_username>/saleswiz-backend.git
-    npm install
-    npm start
-```
 
 ### ✨ PreRequisites
 
@@ -85,13 +78,13 @@ This should start the server, database and populate dummy data in the database t
 ## Community Support
 
 For general help using Saleswiz, refer to the below discussion
-- [Github](https://github.com/apiwizlabs/saleswiz-v2/discussions) - For bug reports, help, feature requests
+- [Github](https://github.com/apiwizlabs/saleswiz/discussions) - For bug reports, help, feature requests
 
 
 ## Contributing
 All code contributions, including those of people having commit access, must go through a pull request and be approved by a maintaner before being merged. This is to ensure a proper review of all the code.
 
-Kindly read our [Contributing Guide](./CONTRIBUTING.md) to familiarize yourself with Saleswiz's development process, how to suggest bug fixes and improvements, and the steps for building and testing your changes.
+Kindly read our [Contributing Guide](../CONTRIBUTING.md) to familiarize yourself with Saleswiz's development process, how to suggest bug fixes and improvements, and the steps for building and testing your changes.
 
 ## Security
 
@@ -102,8 +95,8 @@ Join our growing community! Checkout out our official [Blog](https://www.apiwiz.
 
 
 ## Thanks to all Contributors 🙏🏼
-<a href="https://github.com/apiwizlabs/saleswiz-backend/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=apiwizlabs/saleswiz-backend&max=400&columns=20" />
+<a href="https://github.com/apiwizlabs/saleswiz/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=apiwizlabs/saleswiz&max=400&columns=20" />
 <a>
 
 <!-- The above picture will be visible once made public -->
