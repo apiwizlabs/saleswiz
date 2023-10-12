@@ -1,0 +1,38 @@
+.field-list-item{
+    border-radius: 6px;
+border: 1px solid var(--gray-300, #D0D5DD);
+background: var(--grey-25, #FCFCFD);
+padding: 8px 12px;
+
+/* Shadow/xs */
+box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+}
+
+.add-member-section{
+    border-radius: 10px;
+    background-color: var(--grey-200);
+}
+
+.bg-white{
+    background-color: var(--white);
+}
+
+.profile-dd{
+    top: 50px;
+    right: 0;
+    box-shadow: -3px 2px 8px 2px rgba(0, 0, 0, 0.08);
+    border-radius: 6px;
+}
+
+.text-wrap{
+    word-break: normal;
+    white-space: normal;
+}
+
+.truncated {
+    overflow: hidden;
+    display: block;
+    // width: 50px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

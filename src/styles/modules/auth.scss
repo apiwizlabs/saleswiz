@@ -1,0 +1,50 @@
+
+
+.google-btn{
+    background-color: transparent;
+    border: 1px solid var(--grey-300);
+    border-radius: 6px;
+}
+
+input:focus, textarea:focus{
+    outline: none;
+}
+
+input.input-styles{
+    border: 1px solid var(--grey-300);
+    color: var(--grey-500);
+    font-size: 16px;
+    font-weight: 400;
+}
+input.input-styles:focus{
+    color: var(--grey-900) !important;
+}
+textarea.input-styles{
+    border: 1px solid var(--grey-300);
+}
+textarea.ta.input-styles{
+    min-height: 80px;
+    color: var(--grey-500);
+    font-size: 16px;
+    font-weight: 400;
+}
+textarea.input-styles.notes{
+    color: var(--grey-900);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+input:disabled::placeholder{
+    color: var(--grey-400);
+}
+input:disabled{
+    background-color: var(--grey-100);
+}
+
+
+
+.eye-icon{
+    right: 12px;
+    top: 6px;
+    font-size: 20px;
+}

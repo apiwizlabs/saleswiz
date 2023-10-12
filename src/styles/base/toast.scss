@@ -1,0 +1,42 @@
+.Toastify__toast {
+    border-radius: 5px !important;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25) !important;
+    background-color: var(--white) !important;
+    position: relative;
+}
+
+.Toastify__close-button, .Toastify__toast-body div:not(.Toastify__toast-icon)
+{
+  color: var(--dark-text-400) !important ;
+}
+
+/* Looper styles */
+@keyframes slideAnim {
+    from {
+        transform: translateX(0%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.looper {
+    width: 100%;
+    overflow: hidden;
+}
+
+.looper__innerList {
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+}
+
+.looper__innerList[data-animate="true"] .looper__listInstance {
+    animation: slideAnim linear infinite;
+}
+
+.looper__listInstance {
+    display: flex;
+    width: max-content;
+    animation: none;
+}

@@ -1,0 +1,27 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+// base styles
+@import "./base/fonts";
+@import "./base/v1styles";
+@import "./modules/auth.scss";
+@import "./base/components.scss";
+@import "./base/toast.scss";
+@import "./modules/datepicker.scss";
+@import "./modules/pagination.scss";
+@import "./modules/search.scss";
+
+// modules styles
+@import "./pages/settings.scss";
+@import "./pages/pipelines.scss";
+
+.app-notification{
+    .app-notification-delete{
+        opacity: 0;
+    }
+    &:hover{
+        background-color: var(--grey-100);
+        .app-notification-delete{
+            opacity: 1;
+        }
+    }
+}
