@@ -1,6 +1,6 @@
-name: 🚀 Refactor
+name: 🔄 Refactor
 description: "Submit a proposal for Refactoring"
-title: "🚀 Refactor: "
+title: "🔄 Refactor: "
 labels: [refactor]
 body:
   - type: markdown
