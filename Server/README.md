@@ -1,5 +1,5 @@
 <p align="center">
-    <!-- <img src="" alt="Saleswize banner" -->
+    <img src="../public/banner.png" alt="Saleswize banner" />
     <br/>
     <br/>
     <b>Saleswiz: The CRM Solution for Streamlined Sales and Client Management, Customized to Your Needs.</b>
@@ -21,7 +21,7 @@ Saleswiz is the gateway to effortless deal management and well-organized client 
 🎉 Now its Open to empower 💪🏻 Sales Executives in your Organisation too
 
 ## 🚀 Getting Started
-This is the backend code for [Saleswiz](https://github.com/apiwizlabs/saleswiz), <- Click here to go to UI setup  
+This is the backend code for [Saleswiz](../), <- Click here to go to UI setup  
 To getting started in local development environment, just fork the project git repository and follow the below steps:
 
 ```bash
