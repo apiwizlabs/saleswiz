@@ -43,7 +43,7 @@ Below are the list of important libraries used in UI and Backend of **Saleswiz**
 - React-beautiful-dnd
 - React-Datepicker
 - react-toastify
-Other packages can be found in the [`package.json`](https://github.com/apiwizlabs/saleswiz/blob/main/package.json)
+Other packages can be found in the [`package.json`](./package.json)
 
 ### Backend:
 - Nodejs
@@ -58,10 +58,10 @@ Other packages can be found in the [`package.json`](https://github.com/apiwizlab
 - multer
 - nodemailer
 - winston
-Other packages can be found in the [`package.json`](https://github.com/apiwizlabs/saleswiz-backend/blob/main/package.json)
+Other packages can be found in the [`package.json`](./Server/package.json)
 
 ## License
 By contributing you agree that your contributions will be licensed under its `MIT License`.
 
 ## Questions
-Reach out to our Discussion [forum](https://github.com/apiwizlabs/apiwiz/discussions)
+Reach out to our Discussion [forum](https://github.com/apiwizlabs/saleswiz-v2/discussions)
