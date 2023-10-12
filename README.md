@@ -72,7 +72,7 @@ The above should setup the UI and server side development environment, and you c
 ## Community Support
 
 For general help using Saleswiz, refer to the below discussion
-- [Github](https://github.com/apiwizlabs/saleswiz-v2/discussions) - For bug reports, help, feature requests
+- [Github](https://github.com/apiwizlabs/saleswiz/discussions) - For bug reports, help, feature requests
 
 
 ## Contributing
