@@ -84,8 +84,8 @@ This should start the server, database and populate dummy data in the database t
 
 ## Community Support
 
-For general help using Saleswiz or APIwiz platform, refer to the below discussion
-- [Github](https://github.com/apiwizlabs/apiwiz/discussions) - For bug reports, help, feature requests
+For general help using Saleswiz, refer to the below discussion
+- [Github](https://github.com/apiwizlabs/saleswiz-v2/discussions) - For bug reports, help, feature requests
 
 
 ## Contributing
