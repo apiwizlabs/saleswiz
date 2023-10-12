@@ -1,5 +1,5 @@
 <p align="center">
-    <!-- <img src="" alt="Saleswize banner" -->
+    <img src="./public/banner.png" alt="Saleswize banner" />
     <br/>
     <br/>
     <b>Saleswiz: The CRM Solution for Streamlined Sales and Client Management, Customized to Your Needs.</b>
@@ -11,7 +11,9 @@
 [![GitHub issues](https://img.shields.io/github/issues/apiwizlabs/saleswiz)](https://github.com/apiwizlabs/saleswiz/issues)
 [![GitHub stars](https://img.shields.io/github/stars/apiwizlabs/saleswiz)](https://github.com/apiwizlabs/saleswiz/stargazers)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/apiwizlabs/saleswiz)
-[![Twitter Follow](https://img.shields.io/twitter/follow/getapiwiz)](https://twitter.com/getapiwiz)
+
+[![Twitter Follow](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/getapiwiz)
+[![Linkedin Follow](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/company/apiwizio/)
 
 <!-- Add github shields badges  -->
 
