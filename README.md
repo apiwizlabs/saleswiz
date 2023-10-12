@@ -42,6 +42,8 @@ Saleswiz stands out with streamlined client management, effortless tracking, and
 ## 🚀 Getting Started
 To getting started in local development environment, just fork the project git repository and follow the below steps:
 
+Execue the shell script `setup.sh` to automatically setup for you or follow the below steps
+
 ```bash
   git clone https://github.com/<your_github_username>/saleswiz.git
   cd saleswiz
@@ -56,7 +58,7 @@ Navigate to `/public/config.js` and update the following variables accordingly
 4. `BASE_URL`: The Base Url for your local UI server
 
 
-Make sure the [Server side code](https://github.com/apiwizlabs/saleswiz-backend) is also setup, before running `npm start`
+Make sure the [Server side code](./Server/) is also setup, before running `npm start`
 
 The above should setup the UI and server side development environment, and you can see your app running on `http://localhost:4000/`
 
@@ -69,8 +71,8 @@ The above should setup the UI and server side development environment, and you c
 
 ## Community Support
 
-For general help using Saleswiz or APIwiz platform, refer to the below discussion
-- [Github](https://github.com/apiwizlabs/apiwiz/discussions) - For bug reports, help, feature requests
+For general help using Saleswiz, refer to the below discussion
+- [Github](https://github.com/apiwizlabs/saleswiz-v2/discussions) - For bug reports, help, feature requests
 
 
 ## Contributing
