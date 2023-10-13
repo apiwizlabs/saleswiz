@@ -783,7 +783,7 @@ const CustomCalendarInput = forwardRef((props, ref) => {
   
 
 const DatePickerGroup = ({field, _id, handleInputChange, leadErrors, leadInput, customerId}) => {
-    const [startDate, setStartDate] = useState( !customerId ? null: moment(leadInput?.userValues.find(item => item.labelName === field.labelName).fieldValue, 'DD/MM/YYYY').toDate());
+   const [startDate, setStartDate] = useState( !customerId ? null: leadInput?.userValues.find(item => item.labelName === field.labelName)?.fieldValue ? moment(leadInput?.userValues.find(item => item.labelName === field.labelName)?.fieldValue, 'DD/MM/YYYY').toDate() : null);
     const inputRef = useRef(null);
 
     return (
