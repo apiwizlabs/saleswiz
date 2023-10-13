@@ -178,7 +178,7 @@ uploadFileInstance.interceptors.request.use((config) => {
     getAllDeals(argList) {
       if(argList?.queries){
         const {queries} = argList
-        return axiosInstance.get(`/deals/?page=${queries?.currentPage||""}&limit=${queries?.pageSize||""}&searchInput=${queries?.searchInput||""}&customerIdList=${queries?.customersIdList?.length > 0 ? queries?.customersIdList?.join(",") :""}&teamIdList=${queries?.teamsIdList?.length > 0 ? queries?.teamsIdList?.join(",") : ""}&dateFrom=${queries?.dateFrom||""}&dateTo=${queries?.dateTo||""}`);      
+        return axiosInstance.get(`/deals/?page=${queries?.currentPage||""}&limit=${queries?.pageSize||""}&searchInput=${queries?.searchInput||""}&quarter=${queries?.quarter||""}&quarterYear=${queries?.quarterYear||""}&customerIdList=${queries?.customersIdList?.length > 0 ? queries?.customersIdList?.join(",") :""}&teamIdList=${queries?.teamsIdList?.length > 0 ? queries?.teamsIdList?.join(",") : ""}&dateFrom=${queries?.dateFrom||""}&dateTo=${queries?.dateTo||""}`);      
       }
       return axiosInstance.get(`/deals`);
     },
