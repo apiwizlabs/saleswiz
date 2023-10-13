@@ -191,6 +191,10 @@ const sendApprovalNotification = async (approvalModel, salesOwnerEmail) => {
                                 message: `Value not present for required ${labelName} field`
                             });
                         }
+
+                        if(currentField.fieldType === "Date Picker"){
+                            fieldValue = moment.utc(fieldValue, "DD/MM/YYYY").toDate()
+                        }
                         
                         const {success, label, formattedValue} = validateUserValueType(fieldValue, currentField)
                         if(!success){
@@ -247,7 +251,7 @@ const sendApprovalNotification = async (approvalModel, salesOwnerEmail) => {
 
         for(let i = 0; i < filteredUserValues.length; i++){
 
-            const {labelName, fieldValue} = filteredUserValues[i];
+            let {labelName, fieldValue} = filteredUserValues[i];
          
             for(let k = 0; k < templateFormFields.length; k++){
                 const templateField = templateFormFields[k]
@@ -265,7 +269,11 @@ const sendApprovalNotification = async (approvalModel, salesOwnerEmail) => {
                             message: `User does not have write access for ${labelName}`
                         });
                     }
+                    if(templateField.fieldType === "Date Picker"){
+                        fieldValue = moment.utc(fieldValue, "DD/MM/YYYY").toDate()
+                    }
                     const {success, label, formattedValue} = validateUserValueType(fieldValue, templateField);
+                    
                     if(!success){
                         return res.status(400).json({
                             success: false,
@@ -460,7 +468,7 @@ const sendApprovalNotification = async (approvalModel, salesOwnerEmail) => {
 
 
         for(let i = 0; i < userValues.length; i++){
-            const {labelName, fieldValue} = userValues[i];
+            let {labelName, fieldValue} = userValues[i];
             let templateFieldId = null;
 
             for(let k = 0; k < templateFormFields.length; k++){
@@ -487,6 +495,9 @@ const sendApprovalNotification = async (approvalModel, salesOwnerEmail) => {
                             success: false,
                             message: `User does not have write access for ${labelName}`
                         });
+                    }
+                    if(templateField.fieldType === "Date Picker"){
+                        fieldValue = moment.utc(fieldValue, "DD/MM/YYYY").toDate();
                     }
                     const {success, label} = validateUserValueType(fieldValue, templateField);
                     if(!success){
@@ -611,19 +622,50 @@ const sendApprovalNotification = async (approvalModel, salesOwnerEmail) => {
     }
   }
 
+  function getLastDayOfMonth(year, month) {
+    return new Date(year, month + 1, 1);
+  }
+  function getFirstDayOfMonth(year, month) {
+    return new Date(year, month, 2);
+  }
+
 
   const getAllDealsController = async (req, res) => {
     try{
         let currentUserRole = res.locals.decodedToken.role;
         let currentUserId = res.locals.decodedToken.userId;
-        const {customerIdList, teamIdList, dateFrom, dateTo, searchInput,  page : paramsPage, limit: paramsLimit} = req.query;
+        const {customerIdList, teamIdList, dateFrom, dateTo, quarter, quarterYear, searchInput,  page : paramsPage, limit: paramsLimit} = req.query;
         let adminQuery = {isDeleted: false}
         let teamQuery = {members: currentUserId, isDeleted: false };
         const page = parseInt(paramsPage) - 1;
         const limit = parseInt(paramsLimit);
         const skipCount = page && limit ? page * limit : 0;
         const search = searchInput?.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') || "";
+        const estimatedCloseLabel = "Estimated Deal Completion Date";
+        let quarterFrom = "";
+        let quarterTo = "";
 
+        if(quarter && quarterYear){
+            if(quarter === "Q4"){
+                quarterFrom = getFirstDayOfMonth(quarterYear, 9);
+                quarterTo = getLastDayOfMonth(quarterYear, 11)
+                //oct to dec
+            }else if(quarter === "Q3"){
+                //jul to sept
+                quarterFrom = getFirstDayOfMonth(quarterYear, 6);
+                quarterTo = getLastDayOfMonth(quarterYear, 8)
+            }else if(quarter === "Q2"){
+                //apr to jun
+                quarterFrom = getFirstDayOfMonth(quarterYear, 3);
+                quarterTo = getLastDayOfMonth(quarterYear, 5)
+
+            }else if(quarter === "Q1"){
+                //jan mar
+                quarterFrom = getFirstDayOfMonth(quarterYear, 0);
+                quarterTo = getLastDayOfMonth(quarterYear, 2)
+
+            }
+        }
 
 
         let generatedCustomerIdList = []
@@ -671,6 +713,18 @@ const sendApprovalNotification = async (approvalModel, salesOwnerEmail) => {
             adminQuery.cts = {
                 ...adminQuery.cts,
                 $lte :  moment.utc(dateTo, 'DD/MM/YYYY').endOf('day').toDate()
+            }
+        }
+
+        if(quarter && quarterYear){
+            adminQuery.userValues = {
+                $elemMatch: {
+                  labelName: estimatedCloseLabel,
+                  fieldValue: {
+                    $gte :  moment.utc(quarterFrom, 'DD/MM/YYYY').startOf('day').toDate(),
+                    $lte :  moment.utc(quarterTo, 'DD/MM/YYYY').endOf('day').toDate()
+                  }, 
+                },
             }
         }
 
@@ -784,6 +838,18 @@ const dealsQuery = { isDeleted: false }
                     else if(dateTo){
                         const deal = customerDeals[k];
                         if(moment.utc(deal.cts).startOf('day').valueOf() >  moment.utc(dateTo, 'DD/MM/YYYY').endOf('day').valueOf()){
+                            continue;
+                        }
+                    }
+                    if(quarter && quarterYear){
+                        const deal = customerDeals[k];
+   
+                        if(
+                           ( moment.utc(deal.userValues.find(userValue => userValue.labelName === estimatedCloseLabel)?.fieldValue).startOf('day').valueOf() < 
+                            moment.utc(quarterFrom, 'DD/MM/YYYY').startOf('day').valueOf()) ||
+                            (moment.utc(deal.userValues.find(userValue => userValue.labelName === estimatedCloseLabel)?.fieldValue).startOf('day').valueOf() > 
+                            moment.utc(quarterTo, 'DD/MM/YYYY').endOf('day').valueOf())
+                          ){
                             continue;
                         }
                     }
