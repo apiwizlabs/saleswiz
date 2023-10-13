@@ -181,6 +181,11 @@ const NewDealForm = ({submitDeal, currentPage, setCurrentPage, setSubmitDeal, se
                         dynamicInputs[i].fieldValue[0] = value?.phone;
                         dynamicInputs[i].type = field.fieldType;
                     }
+                    else if(field.fieldType === "Date Picker"){
+                        console.log(moment(value).format("DD/MM/YYYY"), "finall value :: ",value)
+                        dynamicInputs[i].fieldValue = moment(value).format("DD/MM/YYYY");
+                        dynamicInputs[i].type = field.fieldType;
+                    }
                     else{
                         dynamicInputs[i].fieldValue = value;
                         dynamicInputs[i].type = field.fieldType;
@@ -204,7 +209,12 @@ const NewDealForm = ({submitDeal, currentPage, setCurrentPage, setSubmitDeal, se
                     else if(value?.phone){
                         dynamicInputs.push({fieldValue: [value?.phone, ""], type:field.fieldType, labelName: labelName, templateFieldId: field._id, isMandatory: field.isMandatory});
                     }
-                }else{
+                }
+                else if(field.fieldType === "Date Picker"){
+                    console.log(moment(value).format("DD/MM/YYYY"), "finall value :: ",value)
+                    dynamicInputs.push({fieldValue: moment(value).format("DD/MM/YYYY"), labelName: labelName, type:field.fieldType , templateFieldId: field._id, isMandatory: field.isMandatory})
+                }
+                else{
                     dynamicInputs.push({fieldValue: value, labelName: labelName, type:field.fieldType , templateFieldId: field._id, isMandatory: field.isMandatory})
                 }
             }
@@ -785,7 +795,8 @@ const CustomCalendarInput = forwardRef((props, ref) => {
   
 
 const DatePickerGroup = ({field, _id, handleInputChange, dealErrors, dealInput, dealId}) => {
-    const [startDate, setStartDate] = useState( !dealId ? null: moment(dealInput?.userValues.find(item => item.labelName === field.labelName)?.fieldValue, 'DD/MM/YYYY').toDate());
+    console.log("the date val :: ",dealInput?.userValues.find(item => item.labelName === field.labelName)?.fieldValue);
+    const [startDate, setStartDate] = useState( !dealId ? null: dealInput?.userValues.find(item => item.labelName === field.labelName)?.fieldValue ? moment.utc(dealInput?.userValues.find(item => item.labelName === field.labelName)?.fieldValue).toDate() : null);
     const inputRef = useRef(null);
 
     return (
@@ -799,7 +810,7 @@ const DatePickerGroup = ({field, _id, handleInputChange, dealErrors, dealInput, 
                     onChange={(date)=>{
                         console.log(date, "PICKER DATE");
                         setStartDate(date)
-                        handleInputChange({value: moment(date).format('DD/MM/YYYY'), 
+                        handleInputChange({value: date, 
                         labelName: field.labelName, field: field, isDynamic: true })
                     }} 
                 />
