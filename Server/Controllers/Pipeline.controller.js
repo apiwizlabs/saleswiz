@@ -108,7 +108,7 @@ const getDealsForPipeline = async (req, res) => {
 const updatePipelineDealStage = async (req, res) => {
     try{
         const currentUserId = res.locals.decodedToken.userId;      
-        const currentUserRole = res.locals.decodedToken.role;      
+        const currentUserRole = res.locals.decodedToken.role; 
         const { firstColumnData, firstColumnStatus, secondColumnData, secondColumnStatus, dealId }= req.body;
         const currentUser = await UserModel.findById(currentUserId);
         if(secondColumnStatus && secondColumnData && firstColumnStatus){
@@ -123,10 +123,17 @@ const updatePipelineDealStage = async (req, res) => {
                 });
             }
             if(stageField.fieldValue === secondColumnStatus){
-                return res.status(400).json({
-                    success: false,
-                    message: "Stage needs to be different"
-                });
+                currentUser.pipelineSequence.set(firstColumnStatus, firstColumnData);
+                const savedUserSequence = await currentUser.save();
+                return res.status(200).json({
+                    success: true,
+                    data: savedUserSequence,
+                })
+                // console.log(firstColumnStatus, secondColumnData, secondColumnStatus, firstColumnData, "WHAT 123")
+                // return res.status(400).json({
+                //     success: false,
+                //     message: "Stage needs to be different"
+                // });
             }
             const updatedUserValues = foundDeal.userValues.map((userValue)=>{
                 if(userValue.labelName === "Select Stage"){
