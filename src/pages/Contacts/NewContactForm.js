@@ -756,7 +756,7 @@ const CustomCalendarInput = forwardRef((props, ref) => {
   
 
 const DatePickerGroup = ({field, _id, handleInputChange, contactErrors, contactInput, contactId}) => {
-    const [startDate, setStartDate] = useState( !contactId ? null: moment(contactInput?.userValues.find(item => item.labelName === field.labelName).fieldValue, 'DD/MM/YYYY').toDate());
+    const [startDate, setStartDate] = useState( !contactId ? null: contactInput?.userValues.find(item => item.labelName === field.labelName)?.fieldValue ? moment(contactInput?.userValues.find(item => item.labelName === field.labelName)?.fieldValue, 'DD/MM/YYYY').toDate() : null);
     const inputRef = useRef(null);
 
     return (
