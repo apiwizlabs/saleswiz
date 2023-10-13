@@ -13,7 +13,11 @@ import { ACTIVE_ROLES, ADMIN_SALES, ADMIN_ROLES, PageSize } from '../../utils/co
 import DatePicker from "react-datepicker";
 import {countKeysWithDifferentValues } from '../../utils';
 import moment from 'moment';
+import { Calendar } from "react-date-range";
+import { generateYears } from '../../utils/yearOptions';
 
+// import 'react-date-range/dist/styles.css'
+// import 'react-date-range/dist/theme/default.css';
 
 export default function Pipelines() {
     const [draggedItem, setDraggedItem] = useState('')
@@ -29,15 +33,18 @@ export default function Pipelines() {
     const [currentUserData, setCurrentUserData] = useOutletContext()
     const [toggleFilterModal, setToggleFilterModal] = useState(false);
     const [activeFilterCount, setActiveFiltersCount] = useState("");
-    const initialFilterData = {customersIdList: [], teamsIdList: [], dateFrom:"", dateTo: "", pageSize: PageSize, currentPage: 1}
+    const initialFilterData = {customersIdList: [], teamsIdList: [], dateFrom:"", dateTo: "", pageSize: PageSize, currentPage: 1, quarter: "", quarterYear: ""}
     const initDateDetails = {dateFrom : "", dateTo: ""};
     const [filterData, setFilterData] = useState(initialFilterData)   
     const [dateDetails, setDateDetails] = useState(initDateDetails);
     const [dealsTableList, setDealsTableList] = useState([]);
     const inputRef = useRef(null);
     const inputRef2 = useRef(null);
+    const calendarRef = useRef(null);
     const [switchedState, setSwitchedState] = useState('BOARD')
     const [currentPage, setCurrentPage]= useState(1);
+    const [quarterYear, setQuarterYear] = useState(null);   
+    const yearOptions = generateYears();
 
 
 
@@ -72,6 +79,7 @@ export default function Pipelines() {
                 setCurrentPage(1);
                 setFilterData(initialFilterData);
                 setDateDetails(initDateDetails);
+                
                 setActiveFiltersCount(0);
                 if(currentPage === 1){
                     const allDeals = await DealsAPI.getAllDeals({queries: initialFilterData});
@@ -99,6 +107,9 @@ export default function Pipelines() {
         console.log("ITEM",result);
         const {source, destination} = result;
         if(!destination) return;
+        if((source.droppableId !== destination.droppableId) && !ACTIVE_ROLES.includes(currentUserData?.userRole)){
+            return;
+        }
         if(destination.droppableId === source.droppableId && destination.index === source.index) return;
 
         let add = "";
@@ -358,6 +369,108 @@ export default function Pipelines() {
                                 </div>
                             </div>
 
+                            <p className='color-grey-900 fs-16px fw-500 mt-16px'>Completion Quarter</p>
+                            <div style={{backgroundColor: "var(--grey-200)"}} className='w-100 h-71px br-4px d-flex gap-11px p-8px mt-12px'>
+                                <div className='position-relative w-100'>
+                                    <div className="position-absolute year-wrapper"   ref={calendarRef} style={{ zIndex: 1, top: "0", left: "0", width: "163px" }}>
+                                        <p className='color-grey-600 fs-14px'>Select Year</p>
+                                        <div style={{right: "1px", background: "var(--grey-25)", bottom: "0px" }} className='position-absolute'>
+                                            <i className="ri-arrow-down-s-line fs-20px lh-20px pr-10px color-grey-400"></i>
+                                        </div>
+                                        
+                                        <Select 
+                                        onChange={(chosenOption)=>{
+                                            console.log(chosenOption, "quarter chosed");
+                                            if(!filterData.quarter){
+                                                setFilterData(prev => ({...prev, quarterYear: chosenOption?.value, quarter: "Q1" }))
+                                            }else{
+                                                setFilterData(prev => ({...prev, quarterYear: chosenOption?.value }))
+                                            }
+                                        }}
+                                        options={yearOptions}
+                                        components={{
+                                            IndicatorSeparator: () => null,
+                                        }}
+                                        value={filterData.quarterYear ? {label: filterData.quarterYear, value: filterData.quarterYear} : null}
+                                        styles={{
+                                            control: (provided, state) => ({
+                                                ...provided,
+                                                minHeight: '32px',
+                                                height: '32px',
+                                                boxShadow: state.isFocused ? null : null,
+                                                // backgroundColor: filterErrors.quarterYear ? 'var(--error-50)' : 'transparent',
+                                                // borderColor: filterErrors.quarterYear ? 'var(--error-500) !important' : 'hsl(0, 0%, 80%)',
+                                              }),
+                                              valueContainer: (provided, state) => ({
+                                                ...provided,
+                                                height: '32px',
+                                                padding: '0 6px'
+                                              }),
+                                          
+                                              input: (provided, state) => ({
+                                                ...provided,
+                                                margin: '0px',
+                                              }),
+                                              indicatorSeparator: state => ({
+                                                display: 'none',
+                                              }),
+                                              indicatorsContainer: (provided, state) => ({
+                                                ...provided,
+                                                height: '32px',
+                                              }),
+                                        }}
+                                    />
+                                    </div>
+                                </div>
+                               
+                                <div className='w-100'>
+                                    <p className='color-grey-600 fs-14px'>Select Quarter</p>
+                                    <Select 
+                                        onChange={(chosenOption)=>{
+                                            console.log(chosenOption, "quarter chosed");
+                                            if(!filterData.quarterYear){
+                                                setFilterData(prev => ({...prev, quarter: chosenOption?.value, quarterYear: yearOptions[0].value }))
+                                            }else{
+                                                setFilterData(prev => ({...prev, quarter: chosenOption?.value }))
+                                            }
+                                        }}
+                                        options={[{label: "Q1", value: "Q1"},{label: "Q2", value: "Q2"},{label: "Q3", value: "Q3"},{label: "Q4", value: "Q4"}]}
+                                        components={{
+                                            IndicatorSeparator: () => null,
+                                        }}
+                                        value={filterData.quarter ? {label: filterData.quarter, value: filterData.quarter} : null}
+                                        styles={{
+                                            control: (provided, state) => ({
+                                                ...provided,
+                                                minHeight: '32px',
+                                                height: '32px',
+                                                boxShadow: state.isFocused ? null : null,
+                                                // backgroundColor: filterErrors.quarter ? 'var(--error-50)' : 'transparent',
+                                                // borderColor: filterErrors.quarter ? 'var(--error-500) !important' : 'hsl(0, 0%, 80%)',
+                                              }),
+                                          
+                                              valueContainer: (provided, state) => ({
+                                                ...provided,
+                                                height: '32px',
+                                                padding: '0 6px'
+                                              }),
+                                          
+                                              input: (provided, state) => ({
+                                                ...provided,
+                                                margin: '0px',
+                                              }),
+                                              indicatorSeparator: state => ({
+                                                display: 'none',
+                                              }),
+                                              indicatorsContainer: (provided, state) => ({
+                                                ...provided,
+                                                height: '32px',
+                                              }),
+                                        }}
+                                    />
+                                </div>
+                            </div>
+
 
 
                             <button onClick={handleFilterDeals}  className='primary-btn fw-700 fs-14px w-100 h-40px mt-16px'>
@@ -434,7 +547,15 @@ export default function Pipelines() {
                                         <div className='titleSection' style={{height: 59}}>
                                             <div className='iconSection d-flex-center'>
                                                 {/* <Compass size={16} color='#731EE2' weight='bold' /> */}
-                                                <i className='ri-arrow-right-double-line color-primary-800 fs-16px'></i>
+                                                {columnTitle === "Prospect" ? 
+                                                <i className='ri-bookmark-3-line color-primary-800 fs-16px'></i>
+                                            : columnTitle === "Closed Won" ? 
+                                            <i className='ri-trophy-line color-primary-800 fs-16px'></i>
+                                            : columnTitle === "Closed Lost" ?  
+                                            <i className='ri-thumb-down-line color-primary-800 fs-16px'></i>
+                                            : <i className='ri-arrow-right-double-line color-primary-800 fs-16px'></i>
+                                            }
+                                                
                                             </div>
 
                                             <div className='ms-3'>
