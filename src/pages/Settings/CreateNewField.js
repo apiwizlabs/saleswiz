@@ -5,8 +5,9 @@ import Select, {MenuPlacement} from 'react-select'
 import { TemplateAPI } from '../../api/apiConfig';
 import { convertValueIntoLabel } from '../../utils';
 import { rolesOptions } from '../../utils/constants';
+import { v4 as uuidv4 } from "uuid"
 
-const CreateNewField = ({submitForm, setSubmitForm, setTemplateData, formType, editFieldData, onClose, isFieldDefault}) => {
+const CreateNewField = ({submitForm, setStagesData, deleteStage, setSubmitForm, setTemplateData, formType, editFieldData, onClose, isFieldDefault, stagesData}) => {
     //TODO: checkbox is not multiple
 
     const menuPlacement = 'bottom';
@@ -65,8 +66,10 @@ const CreateNewField = ({submitForm, setSubmitForm, setTemplateData, formType, e
         return null;
     };
     const editFieldValues = editFieldData?.fieldData;
+    console.log("the editFieldValue = : ",editFieldValues)
 
-    const initialData = editFieldValues ? 
+    const initialData = formType?.value !== "STAGE" ? 
+    editFieldValues ? 
         {
             ...editFieldValues, 
             fieldType: {
@@ -87,8 +90,13 @@ const CreateNewField = ({submitForm, setSubmitForm, setTemplateData, formType, e
             valueOptions: [],
             readAccessRoles: [],
             writeAccessRoles: []
+        } : editFieldValues ? 
+        {
+            stageName: editFieldValues?.label
+        } : {
+            stageName: ''
         }
-
+console.log(initialData, "init dada")
     const [newFieldInput, setNewFieldInput] = useState(initialData);
     const [formFieldErrors, setFormFieldErrors] = useState(false);
 
@@ -100,44 +108,51 @@ const CreateNewField = ({submitForm, setSubmitForm, setTemplateData, formType, e
 
     const validate = (values) => {
         const errors = {}
-        if(!values.labelName){
-          errors.labelName = "Password is required"
-        }
-        if(!values.toolTip){
-          errors.toolTip = "Tooltip is required"
-        }
-        if(!values.fieldType){
-          errors.fieldType = "FieldType is required"
-        } 
-        if(multiValueTypes.includes(values.fieldType.value)){
-            const optionList = newFieldInput?.valueOptions.filter(item => item.trim());
-            if(optionList.length < newFieldInput?.valueOptions.length){
-                errors.valueOptions = "All Options need to have a value"
-            }else if(optionList.length < 2){
-                errors.valueOptions = "Need atleast two valid options"
+        if(formType?.value === "STAGE"){
+            if(!values.stageName){
+                errors.stageName = deleteStage ? "Select a Stage" : "Invalid Stage Name"
             }
-            // setNewFieldInput(prev => ({...prev, valueOptions: optionList}));
-        }
-        if(values.fieldType.value === "Checkbox"){
-             const optionList = newFieldInput?.valueOptions.filter(item => item.trim());
-             if(optionList.length < newFieldInput?.valueOptions.length){
-                errors.valueOptions = "All Options need to have a value"
-            }
-             else if(optionList.length < 1){
-                errors.valueOptions = "Need atleast one valid option"
-            }
-            // setNewFieldInput(prev => ({...prev, valueOptions: optionList}));        
-        }
-        if(values.isSensitive){
-            if(values.readAccessRoles.length <= 0){
-                errors.readAccessRoles = "Need atleast one role"
-            }
-            if(values.writeAccessRoles.length <= 0){
-                errors.writeAccessRoles = "Need atleast one role"
-            }
-
+        }else{
+            if(!values.labelName){
+                errors.labelName = "Password is required"
+              }
+              if(!values.toolTip){
+                errors.toolTip = "Tooltip is required"
+              }
+              if(!values.fieldType){
+                errors.fieldType = "FieldType is required"
+              } 
+              if(multiValueTypes.includes(values.fieldType.value)){
+                  const optionList = newFieldInput?.valueOptions.filter(item => item.trim());
+                  if(optionList.length < newFieldInput?.valueOptions.length){
+                      errors.valueOptions = "All Options need to have a value"
+                  }else if(optionList.length < 2){
+                      errors.valueOptions = "Need atleast two valid options"
+                  }
+                  // setNewFieldInput(prev => ({...prev, valueOptions: optionList}));
+              }
+              if(values.fieldType.value === "Checkbox"){
+                   const optionList = newFieldInput?.valueOptions.filter(item => item.trim());
+                   if(optionList.length < newFieldInput?.valueOptions.length){
+                      errors.valueOptions = "All Options need to have a value"
+                  }
+                   else if(optionList.length < 1){
+                      errors.valueOptions = "Need atleast one valid option"
+                  }
+                  // setNewFieldInput(prev => ({...prev, valueOptions: optionList}));        
+              }
+              if(values.isSensitive){
+                  if(values.readAccessRoles.length <= 0){
+                      errors.readAccessRoles = "Need atleast one role"
+                  }
+                  if(values.writeAccessRoles.length <= 0){
+                      errors.writeAccessRoles = "Need atleast one role"
+                  }
+      
+              }
         }
         return errors;
+      
       }
 
       const filterArrayOfObjects = (inputArray) => {
@@ -163,34 +178,80 @@ const CreateNewField = ({submitForm, setSubmitForm, setTemplateData, formType, e
                 }
                 setFormFieldErrors(errors);
                 try{
-                    const readAccessRoles = newFieldInput?.readAccessRoles?.map(item => item.value);
-                    const writeAccessRoles = newFieldInput?.writeAccessRoles?.map(item => item.value);
-                    const fieldType = newFieldInput?.fieldType?.value;
-                    const apiFieldInput = {...newFieldInput, readAccessRoles, writeAccessRoles, fieldType };
 
-
-                    if(editFieldData?.show){
-                        
-                        const updatedFormField = await TemplateAPI.updateFormField(formType.value.toLowerCase(), apiFieldInput);
-                        const templateData = await TemplateAPI.getTemplateByType(formType.value.toLowerCase());
-                        if(templateData.status === 200){
-                            setTemplateData(templateData?.data?.data?.formFields);
+                    if(formType?.value === "STAGE"){
+                        console.log(stagesData, "edit");
+                        if(deleteStage){
+                            const updateName = await TemplateAPI.updateFormField("deal", {deleteStage: true,  deletedStage: deleteStage?.label, replacedStage: newFieldInput?.stageName, _id: stagesData?.fieldId })
+                            if(updateName?.status === 200){
+                                const foundIndex = stagesData?.stageLabels.findIndex(item => item.label === deleteStage.label);
+                                if(foundIndex > -1){
+                                    const _stagesList = [...stagesData?.stageLabels]
+                                    _stagesList.splice(foundIndex, 1);
+                                    setStagesData(prev => ({...prev, stageLabels: _stagesList}))
+                                    console.log("in delete field :: ", deleteStage);
+                                    onClose();
+                                    setSubmitForm(false);
+                                }
+                            }
                         }
-                        onClose()
-                        setSubmitForm(false);
+                        else if(editFieldValues?.label){
+
+                            const updateName = await TemplateAPI.updateFormField("deal", {stage: true, origin: editFieldValues?.label, new: newFieldInput.stageName, _id: stagesData?.fieldId })
+                            console.log(updateName, "UPDATE NAME RSUL");
+                            if(updateName?.status === 200){
+                                const foundIndex = stagesData?.stageLabels.findIndex(item => item.label === editFieldValues.label);
+                                
+                                if(foundIndex > -1){
+                                    const _stagesList = [...stagesData?.stageLabels]
+                                    _stagesList[foundIndex].label = newFieldInput.stageName;
+                                    console.log(_stagesList)
+                                    setStagesData(prev => ({...prev, stageLabels: _stagesList}))
+                                    onClose()
+                                    setSubmitForm(false);
+                                }
+                            }
+                        }  else{
+                            console.log("new stage created");
+                            const updateName = await TemplateAPI.updateFormField("deal", {newStage: true, label: newFieldInput.stageName, _id: stagesData?.fieldId })
+                            if(updateName?.status === 200){
+                                console.log("lmaoooooo123",[...stagesData.stageLabels, newFieldInput.stageName])
+                                setStagesData(prev => ({...prev, stageLabels: [...prev.stageLabels, {label: newFieldInput.stageName, uId: uuidv4()}]}))
+                                onClose()
+                                setSubmitForm(false)
+                            }
+
+                        }                      
                     }else{
-                        const createFormField = await TemplateAPI.createFormField(formType.value.toLowerCase(), apiFieldInput);
-                        const templateData = await TemplateAPI.getTemplateByType(formType.value.toLowerCase());
-                        if(templateData.status === 200){
-                            setTemplateData(templateData?.data?.data?.formFields);
+
+                        const readAccessRoles = newFieldInput?.readAccessRoles?.map(item => item.value);
+                        const writeAccessRoles = newFieldInput?.writeAccessRoles?.map(item => item.value);
+                        const fieldType = newFieldInput?.fieldType?.value;
+                        const apiFieldInput = {...newFieldInput, readAccessRoles, writeAccessRoles, fieldType };
+    
+    
+                        if(editFieldData?.show){
+                            
+                            const updatedFormField = await TemplateAPI.updateFormField(formType.value.toLowerCase(), apiFieldInput);
+                            const templateData = await TemplateAPI.getTemplateByType(formType.value.toLowerCase());
+                            if(templateData.status === 200){
+                                setTemplateData(templateData?.data?.data?.formFields);
+                            }
+                            onClose()
+                            setSubmitForm(false);
+                            
+                        }else{
+
+                            const createFormField = await TemplateAPI.createFormField(formType.value.toLowerCase(), apiFieldInput);
+                            const templateData = await TemplateAPI.getTemplateByType(formType.value.toLowerCase());
+                            if(templateData.status === 200){
+                                setTemplateData(templateData?.data?.data?.formFields);
+                            }
+                            onClose()
+                            setSubmitForm(false);
+    
                         }
-
-                        onClose()
-                        setSubmitForm(false);
-
                     }
-
-
                 }catch(err){
                     setSubmitForm(false);
                   console.error(err, "::ERROR")      
@@ -200,12 +261,54 @@ const CreateNewField = ({submitForm, setSubmitForm, setTemplateData, formType, e
     },[submitForm])
 
 
-  
-
-
-
     return (
-        <div className='px-20px py-16px d-flex flex-column'>
+        <>
+       {formType?.value === "STAGE" ? 
+
+       deleteStage ? 
+       <div className='px-20px py-16px d-flex flex-column'>
+            <div style={{border: "1px solid var(--error-300)", backgroundColor: 'var(--error-25)'}} className='w-100 color-error-red h-max-content br-8px fs-12px lh-20px p-12px'>You may already have ongoing deals in the stage. Please select another stage to which all the deals will be moved after deletion</div>
+            <label className='fw-500 mb-6px mt-20px' htmlFor='fallbackStage'>Fallback Stage</label>
+            <Select
+                className={`basic-single`}
+                classNamePrefix="select"
+                components={{
+                    IndicatorSeparator: () => null
+                }}
+                menuPortalTarget={document.body}
+                menuPosition='absolute'
+                menuPlacement={menuPlacement}
+                styles={{
+                    control: (baseStyles, state) => ({
+                        ...baseStyles,
+                        backgroundColor: formFieldErrors?.stageName ? 'var(--error-50)' : 'transparent',
+                        borderColor: formFieldErrors?.stageName ? 'var(--error-500) !important' : 'hsl(0, 0%, 80%)',
+                    }),
+                    menuPortal: (base) => ({ ...base, zIndex: 1000 }),
+                }}
+                isSearchable={true}
+                onChange={(chosenOption)=>{
+                    setNewFieldInput({stageName: chosenOption.value})
+                }}
+                name="fieldType"
+                placeholder="Choose Fallback Stage"
+                options={stagesData?.stageLabels?.filter(item => item.label !== deleteStage.label).map(item => ({label: item.label, value: item.label}))}
+            />
+            {formFieldErrors?.stageName && <p className='error-txt'>{formFieldErrors?.stageName}</p>}
+       
+        </div> 
+       : <div className='px-20px py-16px d-flex flex-column'>
+            <label className='fw-500 mb-6px mt-16px' htmlFor='stageName'>Stage Name</label>
+            <input className={`h-40px py-8px px-12px br-6px input-styles ${formFieldErrors?.stageName ? 'error-input' : ''}`} 
+            id="stageName"
+            name="stageName"
+            value={newFieldInput.stageName}
+            onChange={handleFormFieldInput} 
+            placeholder='Type Stage Name' type='text' />
+            {formFieldErrors?.stageName && <p className='error-txt'>{formFieldErrors?.stageName}</p>}
+       
+        </div> 
+        : <div className='px-20px py-16px d-flex flex-column'>
             <label className='fw-500 mb-6px mt-16px' htmlFor='labelName'>Field Name</label>
             <input className={`h-40px py-8px px-12px br-6px input-styles ${editFieldData ? 'disabled' : ''} ${formFieldErrors?.labelName ? 'error-input' : ''}`} id="labelName"
             name="labelName"
@@ -262,7 +365,7 @@ const CreateNewField = ({submitForm, setSubmitForm, setTemplateData, formType, e
                 placeholder="Choose Field Type"
                 options={fieldTypesOptions}
             />
-                {formFieldErrors?.fieldType && <p className='error-txt'>{formFieldErrors.fieldType}</p>}
+            {formFieldErrors?.fieldType && <p className='error-txt'>{formFieldErrors.fieldType}</p>}
 
             {newFieldInput?.valueOptions?.length > 0 && 
             <div className='d-flex flex-column mt-20px'>
@@ -363,7 +466,7 @@ const CreateNewField = ({submitForm, setSubmitForm, setTemplateData, formType, e
                         className="basic-multi-select"
                         classNamePrefix="select"
                     />
-                                {formFieldErrors?.readAccessRoles && <p className='error-txt'>{formFieldErrors.readAccessRoles}</p>}
+                    {formFieldErrors?.readAccessRoles && <p className='error-txt'>{formFieldErrors.readAccessRoles}</p>}
 
 
                     {newFieldInput?.readAccessRoles?.length > 0 &&
@@ -440,7 +543,8 @@ const CreateNewField = ({submitForm, setSubmitForm, setTemplateData, formType, e
                 <p onClick={() => setNewFieldInput({ ...newFieldInput, needsApproval: !newFieldInput.needsApproval })}
                     className='color-grey-900 fs-16px cursor'>Needs Approval from sales owner</p>
             </div>}
-        </div>
+        </div>}
+        </>
     );
 };
 
