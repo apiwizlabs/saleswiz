@@ -75,8 +75,7 @@ const FormFieldsSchema = new Schema(
       ],
       createdBy: {
         type: Types.ObjectId,
-        ref: "users",
-        required: [true, "Form Value Owner Required"]
+        ref: "users"
       },
       isDeleted: {
         type: Boolean,
