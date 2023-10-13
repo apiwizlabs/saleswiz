@@ -23,7 +23,7 @@ const Settings = () => {
             iconName: 'ri-team-line'
         },
         {
-            title: 'Fields',
+            title: 'Fields and Stages',
             route: '/fields',
             iconSrc: FieldIcon
         },
