@@ -34,6 +34,7 @@ const DealTableView = ({getAllDealsData, dealsTableList, setDealsTableList, getP
             <table className='mt-17px'>
                 <tr>
                     <th className='fs-14px fw-400 color-grey-600'>Deal Name</th>
+                    <th className='fs-14px fw-400 color-grey-600'>Stage</th>
                     <th className='fs-14px fw-400 color-grey-600'>Linked Customer</th>
                     <th className='fs-14px fw-400 color-grey-600'>Team Name</th>
                     <th className='fs-14px fw-400 color-grey-600'>Sales Owner</th>
@@ -92,6 +93,7 @@ const TableRow = ({deal, setDealId, setEditToggleModal, setLoading, getAllDealsD
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
     const dealName = deal?.userValues?.find(item => item.labelName === "Deal Name").fieldValue;
+    const dealStage = deal?.userValues?.find(item => item.labelName === "Select Stage").fieldValue;
     const salesOwner = deal?.linkedCustomer?.linkedTeam?.members.find(member => member.role === "SALES_OWNER");
     const [activeRow, setActiveRow] = useState(false);
 
@@ -127,6 +129,7 @@ const TableRow = ({deal, setDealId, setEditToggleModal, setLoading, getAllDealsD
         }}
         onClick={()=>navigate(`/deals/${deal._id}`)} className='cursor'>
         <td>{dealName || <span className='color-warning-700'>Required: Add a field labeled 'Deal Name'</span>}</td>
+        <td>{dealStage}</td>
         <td>{
         ADMIN_ROLES.includes(currentUserData?.userRole) ? 
         deal?.linkedCustomer?.userValues?.find(userValue => userValue.labelName === "Customer Name")?.fieldValue 
