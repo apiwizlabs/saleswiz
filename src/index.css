@@ -59,13 +59,15 @@ h1, h2, h3, h4, h5, h6, p{margin: 0px !important; padding: 0px !important;}
   --blue-900: #111927;
 
   /* INDICATOR COLORS */
-  --error-500: #F04438;
+  
   --success-500: #17B26A;
   --warning-500: #F79009;
   --warning-700: #B54708;
   --success-700: #067647;
+  --error-500: #F04438;
+  --error-300: #FDA29B;
   --error-50: #FEF3F2;
-  
+  --error-25: #FFFBFA;
 
 
 
