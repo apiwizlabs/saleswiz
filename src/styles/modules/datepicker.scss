@@ -10,6 +10,9 @@
 .react-datepicker__input-container, .react-datepicker-wrapper{
   width: 100%;
 }
+.react-datepicker-popper{
+  z-index: 50 !important;
+}
 
 .react-datepicker__navigation.react-datepicker__navigation--next{
     top: 28px !important;
