@@ -64,9 +64,68 @@ The above should setup the UI and server side development environment, and you c
 
 
 
-## Architecture
+## Sequence
 
 ![saleswiz architecture](./public/white-saleswiz-seq.drawio.png)
+
+## How does Saleswiz work?
+
+### The User Role Types
+1. Admin and Organisation Owner - a managerial role with no edit/read access restrictions
+3. Sales Owner - Team Lead Role
+4. Account Owner - Active Team Participant 
+5. Engineering, Pre Sales and Marketing - Can only read data
+
+### There are Four major entities:
+1. Teams - consists of sales owner/s, account owner/s and other members that have an engineering/pre sales/marketing role.
+2. Customers (or) Leads - Customer is the parent entity for deals and contacts i.e each deal or contact made needs to be linked to a customer
+Note: Each Customer is linked to a team.
+3. Deals - a deal made with a customer, consists of notes, activities and file uploads
+4. Contacts - save the details of the people you need.
+
+### High level Entity Relationship diagram:
+
+![Untitled](https://github.com/apiwizlabs/saleswiz/assets/114063074/fe42c210-9e8f-4310-8479-fbca1158d50e)
+
+
+### RBAC Control Rules:
+
+1. Admins and Organisation Owners have no restrictions whatsoever.
+2. Only if a user is part of a team will they be able to view entities within it. entities within a team include customers hence including deals and contacts as well.
+3. Sales Owner can create teams but they would have to be the sales owner of that team (check?)
+4. Engineering, Pre Sales and Marketing can edit/create and delete anything within a deal.
+5. A user needsto either be the activity owner or the assignee to be able to update it.
+
+
+### How to setup your data and perform certain actions:
+
+make sure to login to an admin account for the following actions
+1. Invite Some Email Ids to your workspace.
+2. Create a Team 
+   - go to settings via the wheel icon on the navbar then click on the "Create Team" button.
+3. If you want to configure your form for deals, customers and contacts go to the "Fields and Stages" tab from the sidebar and configure it. 
+4. Create a Customer/Lead by going to the Leads page from the sidebar in the left hand side. make sure to create a team beforehand and link it.
+5. Create a Deal and a Contact by going to the Pipeline/Contacts Page respectively.
+6. To Create an Activity, click on the deal card that's displayed in the pipeline page. then go to the Activity tab and create a Call/Task.
+While creating a Call you can link a pre exisitng Contact to it.
+
+
+### Form Configuration Explainer:
+
+1. Needs For Approval Field: <br />
+- The Needs For Approval Checkbox option that you see while configuring a field for a deal is used when you want to make sure a certain data point is approved before displaying it to everyone in the team.
+Usually used to display the contract value of a deal publicly only after its "approved" by the sales owner. <br />
+- The sales owner can find pending approval requests and history in the "Approval Manager" secion present in the sidebar of the settings page.
+
+<img width="1679" alt="Screenshot 2023-10-16 at 7 34 53 PM" src="https://github.com/apiwizlabs/saleswiz/assets/114063074/efaf6451-f0e5-4031-8563-8c4f51b6f02d">
+
+
+2. Make this a Technical Info Field: <br />
+- the fields marked as technical info will be displayed in a different tab within the "Create Customer" modal.
+
+<img width="1680" alt="Screenshot 2023-10-16 at 7 40 21 PM" src="https://github.com/apiwizlabs/saleswiz/assets/114063074/364ba51e-a73d-4acb-ad20-3e7cd2e0d31a">
+
+
 
 
 ## Community Support
