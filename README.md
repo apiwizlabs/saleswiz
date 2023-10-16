@@ -64,7 +64,7 @@ The above should setup the UI and server side development environment, and you c
 
 
 
-## Sequence
+## Sequence Diagram
 
 ![saleswiz architecture](./public/white-saleswiz-seq.drawio.png)
 
