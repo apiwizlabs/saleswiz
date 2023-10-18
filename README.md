@@ -149,7 +149,7 @@ Join our growing community! Checkout out our official [Blog](https://www.apiwiz.
 
 ## Thanks to all Contributors 🙏🏼
 <a href="https://github.com/apiwizlabs/saleswiz/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=apiwizlabs/saleswiz&max=400&columns=20" />
+  <img src="https://contrib.rocks/image?repo=apiwizlabs/saleswiz" />
 <a>
 
 <!-- The above picture will be visible once made public -->
