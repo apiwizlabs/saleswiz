@@ -66,7 +66,7 @@ The above should setup the UI and server side development environment, and you c
 
 ## Sequence Diagram
 
-![saleswiz architecture](./public/white-saleswiz-seq.drawio.png)
+![saleswiz architecture](./github-assets/saleswiz-seq.png)
 
 ## How does Saleswiz work?
 
@@ -85,7 +85,7 @@ Note: Each Customer is linked to a team.
 
 ### High level Entity Relationship diagram:
 
-![Untitled](https://github.com/apiwizlabs/saleswiz/assets/114063074/fe42c210-9e8f-4310-8479-fbca1158d50e)
+![saleswiz Entity Relationship Diagram](./github-assets/saleswiz-erd.jpg)
 
 
 ### RBAC Control Rules:
@@ -117,13 +117,13 @@ While creating a Call you can link a pre exisitng Contact to it.
 Usually used to display the contract value of a deal publicly only after its "approved" by the sales owner. <br />
 - The sales owner can find pending approval requests and history in the "Approval Manager" secion present in the sidebar of the settings page.
 
-<img width="1679" alt="Screenshot 2023-10-16 at 7 34 53 PM" src="https://github.com/apiwizlabs/saleswiz/assets/114063074/efaf6451-f0e5-4031-8563-8c4f51b6f02d">
+<img width="1000" alt="Screenshot 2023-10-16 at 7 34 53 PM" src="./github-assets/deal-formdef.png">
 
 
 2. Make this a Technical Info Field: <br />
 - the fields marked as technical info will be displayed in a different tab within the "Create Customer" modal.
 
-<img width="1680" alt="Screenshot 2023-10-16 at 7 40 21 PM" src="https://github.com/apiwizlabs/saleswiz/assets/114063074/364ba51e-a73d-4acb-ad20-3e7cd2e0d31a">
+<img width="1000" alt="Screenshot 2023-10-16 at 7 40 21 PM" src="./github-assets/customer-formdef.png">
 
 
 
